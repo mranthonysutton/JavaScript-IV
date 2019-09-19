@@ -38,13 +38,9 @@ class Student extends Person {
   }
 
   listsSubjects() {
-    // this.favSubjects.forEach(function(subject) {
-    //   console.log(subject);
-    // });
-
-    for (let i = 0; i < this.favSubjects.length; i++) {
-      console.log(this.favSubjects[i]);
-    }
+    this.favSubjects.forEach(function(subject) {
+      console.log(subject);
+    });
   }
 
   PRAssignment(subject) {
@@ -107,7 +103,7 @@ const don = new ProjectManager({
 console.log(anthony.speak());
 console.log(fred.demo("React"));
 console.log(fred.grade(anthony, "React"));
-console.log(anthony.listsSubjects());
+anthony.listsSubjects();
 console.log(anthony.PRAssignment("React"));
 console.log(anthony.sprintChallenge("React"));
 console.log(don.standUp("web_lecture"));
