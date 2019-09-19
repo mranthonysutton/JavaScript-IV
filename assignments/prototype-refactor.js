@@ -1,46 +1,64 @@
-/* 
+/*
+  Object oriented design is commonly used in video games.  For this part of the assignment you will be implementing several constructor functions with their correct inheritance hierarchy.
 
-Prototype Refactor
+  In this file you will be creating three constructor functions: GameObject, CharacterStats, Humanoid.  
 
-1. Copy and paste your code or the solution from yesterday
-
-2. Your goal is to refactor all of this code to use ES6 Classes. The console.log() statements should still return what is expected of them.
-
+  At the bottom of this file are 3 objects that all end up inheriting from Humanoid.  Use the objects at the bottom of the page to test your constructor functions.
+  
+  Each constructor function has unique properties and methods that are defined in their block comments below:
 */
 
-function GameObject(attr) {
-  this.createdAt = attr.createdAt;
-  this.name = attr.name;
-  this.dimensions = attr.dimensions;
+/*
+  === GameObject ===
+  createdAt
+  name
+  dimensions (These represent the character's size in the video game)
+  destroy() // prototype method that returns: `${this.name} was removed from the game.`
+*/
+
+class GameObject {
+  constructor(attr) {
+    this.createdAt = attr.createdAt;
+    this.name = attr.name;
+    this.dimensions = attr.dimensions;
+  }
+
+  destroy() {
+    return `${this.name} was removed from the game.`;
+  }
 }
 
-GameObject.prototype.destroy = function() {
-  return `${this.name} was removed from the game.`;
-};
+class CharacterStats extends GameObject {
+  constructor(attr) {
+    super(attr);
+    this.healthPoints = attr.healthPoints;
+  }
 
-function CharacterStats(attr) {
-  GameObject.call(this, attr);
-  this.healthPoints = attr.healthPoints;
+  takeDamage() {
+    return `${this.name} took damage.`;
+  }
 }
 
-CharacterStats.prototype = Object.create(GameObject.prototype);
-CharacterStats.prototype.takeDamage = function() {
-  return `${this.name} took damage.`;
-};
+class Humanoid extends CharacterStats {
+  constructor(attr) {
+    super(attr);
+    this.team = attr.team;
+    this.weapons = attr.weapons;
+    this.language = attr.language;
+  }
 
-function Humanoid(attr) {
-  GameObject.call(this, attr);
-  CharacterStats.call(this, attr);
-  this.team = attr.team;
-  this.weapons = attr.weapons;
-  this.language = attr.language;
+  greet() {
+    return `${this.name} offers a greeting in ${this.language}.`;
+  }
 }
 
-Humanoid.prototype = Object.create(CharacterStats.prototype);
+/*
+ * Inheritance chain: GameObject -> CharacterStats -> Humanoid
+ * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
+ * Instances of CharacterStats should have all of the same properties as GameObject.
+ */
 
-Humanoid.prototype.greet = function() {
-  return `${this.name} offers a greeting in ${this.language}.`;
-};
+// Test you work by un-commenting these 3 objects and the list of console logs below:
 
 const mage = new Humanoid({
   createdAt: new Date(),
@@ -95,31 +113,30 @@ console.log(archer.greet()); // Lilith offers a greeting in Elvish.
 console.log(mage.takeDamage()); // Bruce took damage.
 console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
 
-function Villain(attr) {
-  GameObject.call(this, attr);
-  CharacterStats.call(this, attr);
-  Humanoid.call(this, attr);
+// Stretch task:
+// * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
+// * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
+// * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+class Villain extends Humanoid {
+  constructor(attr) {
+    super(attr);
+  }
+
+  riot(enemy) {
+    return `${this.name} has caused a riot against ${enemy}. ${enemy} has taken damage.`;
+  }
 }
 
-Villain.prototype = Object.create(GameObject.prototype);
-Villain.prototype = Object.create(CharacterStats.prototype);
+class Hero extends Humanoid {
+  constructor(attr) {
+    super(attr);
+  }
 
-Villain.prototype.riot = function(enemy) {
-  return `${this.name} has caused a riot against ${enemy}. ${enemy} has taken damage.`;
-};
-
-function Hero(attr) {
-  GameObject.call(this, attr);
-  CharacterStats.call(this, attr);
-  Humanoid.call(this, attr);
+  swiftStrick(enemy) {
+    return `${this.name} used swift strike on ${enemy}. ${enemy} has taken damage.`;
+  }
 }
-
-Hero.prototype = Object.create(GameObject.prototype);
-Hero.prototype = Object.create(CharacterStats.prototype);
-
-Hero.prototype.swiftStrick = function(enemy) {
-  return `${this.name} used swift strike on ${enemy}. ${enemy} has taken damage.`;
-};
 
 const bacon = new Hero({
   createdAt: new Date(),
