@@ -77,11 +77,11 @@ class ProjectManager extends Instructor {
   }
 
   changeGrade(student) {
-    if (student.grade >= 70) {
-      return;
-    } else {
+    if (student.grade < 70) {
       student.grade = 70;
-      return `${student.name}'s grade is ${student.grade}.`;
+      return `You have changed ${student.name}'s grade to ${student.grade}% so that they may graduate.`;
+    } else {
+      return "";
     }
   }
 }
@@ -129,5 +129,5 @@ console.log(don.standUp("web_lecture"));
 console.log(don.debugsCode(anthony, "React"));
 
 console.log(anthony.graduate());
-console.log(don.changeGrade(anthony));
+don.changeGrade(anthony);
 console.log(anthony.graduate());
