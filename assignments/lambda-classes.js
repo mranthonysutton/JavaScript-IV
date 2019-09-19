@@ -36,6 +36,20 @@ class Student extends Person {
     this.className = attr.className;
     this.favSubjects = attr.favSubjects;
   }
+
+  listsSubjects() {
+    this.favSubjects.forEach(function(subject) {
+      console.log(subject);
+    });
+  }
+
+  PRAssignment(subject) {
+    return `${this.name} has submitted a PR for ${subject}.`;
+  }
+
+  sprintChallenge(subject) {
+    return `${this.name} has begun sprint challenge on ${subject}.`;
+  }
 }
 
 const fred = new Instructor({
@@ -59,4 +73,4 @@ const anthony = new Student({
   favSubjects: ["HTML", "CSS", "Javascript"]
 });
 
-console.log(fred.grade(anthony, "bacon"));
+console.log(anthony.sprintChallenge("test"));
